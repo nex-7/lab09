@@ -46,15 +46,19 @@ option(BUILD_TESTS "Build tests" OFF) # После выделенной стро
 ' CMakeLists.txt # Указываем файл, где будем вставить
 $ cat >> CMakeLists.txt <<EOF
 
+$ sed -i '' '/option(BUILD_EXAMPLES "Build examples" OFF)/a\
+option(BUILD_TESTS "Build tests" OFF)
+' CMakeLists.txt
+$ cat >> CMakeLists.txt <<EOF  # добавление в CMakeLists.txt информации и конфигурации тестов
 if(BUILD_TESTS)
 	enable_testing()
 	file(GLOB \${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
-	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES}) # Добавляем исполняемый файл
-	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES}) # Устанавливаем связь с библиотеками
-	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes")  # Передаём имя теста и какую команду необходимо
-#задаем параметры теста 
-# -s = показываем успешные выполнения теста
-# -r compact = формат вывода
+	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES})
+	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES})
+	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes")	#задаем параметры теста 
+											# -s = показываем успешные выполнения теста
+											# -r compact = формат вывода
+											
 endif()
 EOF
 ```
