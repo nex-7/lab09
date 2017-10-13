@@ -37,7 +37,7 @@ $ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -
 $ cat > tests/main.cpp <<EOF
 #define CATCH_CONFIG_MAIN # Предоставляем main()
 #include "catch.hpp"
-EOF # Создаем файл catch.cpp
+EOF
 ```
 
 ```ShellSession
@@ -81,7 +81,7 @@ TEST_CASE("output values should match input values", "[file]") {
   
   REQUIRE(result == text);  # При условии, что оба потока файла совпали
 }
-EOF # Создаем файл test1.cpp
+EOF
 ```
 
 Сборка проекта.
