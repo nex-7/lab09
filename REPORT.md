@@ -44,11 +44,6 @@ EOF
 $ sed -i '' '/option(BUILD_EXAMPLES "Build examples" OFF)/a\ # Выделяем определенную строку
 option(BUILD_TESTS "Build tests" OFF) # После выделенной строки вставим следующую строку
 ' CMakeLists.txt # Указываем файл, где будем вставить
-$ cat >> CMakeLists.txt <<EOF
-
-$ sed -i '' '/option(BUILD_EXAMPLES "Build examples" OFF)/a\
-option(BUILD_TESTS "Build tests" OFF)
-' CMakeLists.txt
 $ cat >> CMakeLists.txt <<EOF  # добавление в CMakeLists.txt информации и конфигурации тестов
 if(BUILD_TESTS)
 	enable_testing()
