@@ -30,12 +30,12 @@ $ git remote remove origin # Очищаем путь загрузки гита
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06 # Назначаем новый путь для будущей загрузки гита
 ```
 
-Создаем папку `tests`, закачиваем туда файл `catch.hpp` свежей версии.
+Создаем тесты.
 ```ShellSession
 $ mkdir tests # Создаем папку tests
 $ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -O tests/catch.hpp # Загружаем файл catch.hpp
 $ cat > tests/main.cpp <<EOF
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_MAIN # Предоставляем main()
 #include "catch.hpp"
 EOF # Создаем файл catch.cpp
 ```
@@ -49,11 +49,14 @@ $ cat >> CMakeLists.txt <<EOF
 if(BUILD_TESTS)
 	enable_testing()
 	file(GLOB \${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
-	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES})
-	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES})
-	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes") 
+	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES}) # Добавляем исполняемый файл
+	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES}) # Устанавливаем связь с библиотеками
+	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes")  # Передаём имя теста и какую команду необходимо
+#задаем параметры теста 
+# -s = показываем успешные выполнения теста
+# -r compact = формат вывода
 endif()
-EOF # В конце файла прописываем некоторые функции
+EOF
 ```
 
 ```ShellSession
@@ -72,16 +75,16 @@ TEST_CASE("output values should match input values", "[file]") {
   std::ifstream in("file.txt");
   in >> result;
   
-  REQUIRE(result == text);
+  REQUIRE(result == text);  # При условии, что оба потока файла совпали
 }
 EOF # Создаем файл test1.cpp
 ```
 
-Запускаем файл `CMakeLists.txt` через `cmake`.
+Сборка проекта.
 ```ShellSession
 $ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install -DBUILD_TESTS=ON
 $ cmake --build _build
-$ cmake --build _build --target test
+$ cmake --build _build --target test # Если test задан, он будет запущен после сборки
 ```
 
 В файле `README.md` в строке заменяем `lab05` на `lab06`, и в `.travis.yml` аналогично, после добавляем новую строку.
@@ -97,14 +100,14 @@ $ sed -i '' '/cmake --build _build --target install/a\ # Добавляем сл
 $ travis lint # Включаем отображение предупреждений для .travis.yml
 ```
 
-Загружаем гит на `GitHub`.
+Пушим файлы.
 ```ShellSession
 $ git add . # Добавляем все содержимое в папке
 $ git commit -m "added tests" # Коммитируем
 $ git push origin master # Загружаем гит на GitHub
 ```
 
-Авторизуемся без токена.
+Вход в travis и активация проекта.
 ```ShellSession
 $ travis login --auto # Авторуземся без токена
 $ travis enable # Включаем интеграцию к lab06
