@@ -19,7 +19,7 @@ $ open https://github.com/philsquared/Catch
 
 Устанавливаем значение окружения `GITHUB_USERNAME`.
 ```ShellSession
-$ export GITHUB_USERNAME=TalkedDevotee
+$ export GITHUB_USERNAME=nex-7
 ```
 
 Скачиваем предыдущую лабораторную работу в папку `lab06`.
