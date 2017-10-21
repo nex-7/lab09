@@ -19,8 +19,8 @@ $ open https://cmake.org/Wiki/CMake:CPackPackageGenerators
 
 Устанавливаем значение окружения переменной `GITHUB_USERNAME` и `GITHUB_EMAIL`.
 ```ShellSession
-$ export GITHUB_USERNAME=TalkedDevotee # Установка значения GITHUB_USERNAME
-$ export GITHUB_EMAIL=j*************@yandex.ru # Установка значения GITHUB_EMAIL
+$ export GITHUB_USERNAME=nex-7 # Установка значения GITHUB_USERNAME
+$ export GITHUB_EMAIL=a*************@inbox.ru # Установка значения GITHUB_EMAIL
 $ alias edit=vim # Настраиваем текстовый редактор
 ```
 
