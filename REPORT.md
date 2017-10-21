@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/nex-7/lab07.svg?branch=master)](https://travis-ci.org/nex-7/lab07)
 
-## Laboratory work VI
+## Laboratory work VII
 
-Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **Catch**
+Данная лабораторная работа посвещена изучению систем документирования исходного кода на примере **Doxygen**
 
 ```ShellSession
-$ open https://github.com/philsquared/Catch
+$ open https://www.stack.nl/~dimitri/doxygen/manual/index.html
 ```
 
 ## Tasks
@@ -17,114 +17,84 @@ $ open https://github.com/philsquared/Catch
 
 ## Tutorial
 
-Устанавливаем значение окружения `GITHUB_USERNAME`.
+Устанавливаем переменную окружения `GITHUB_USERNAME`.
 ```ShellSession
-$ export GITHUB_USERNAME=nex-7
+$ export GITHUB_USERNAME=TalkedDevotee # Установка переменной окружения
+$ alias edit=vim # Выбираем текстковый редактор Vim
 ```
 
-Скачиваем предыдущую лабораторную работу в папку `lab07`.
+Скачиваем лабораторную работу №6 в папку `lab07`.
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab05 lab07 # Скачиваем гит с GitHub
+$ git clone https://github.com/${GITHUB_USERNAME}/lab06 lab07 # Загрузка гита в папку lab07
 $ cd lab07 # Переходим в папку lab07
 $ git remote remove origin # Очищаем путь загрузки гита
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 # Назначаем новый путь для будущей загрузки гита
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 # Устанавливаем путь загрузки гита
 ```
 
-Создаем тесты.
+Создаем папку и файл конфигурации.
 ```ShellSession
-$ mkdir tests # Создаем папку tests
-$ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -O tests/catch.hpp # Загружаем файл catch.hpp
-$ cat > tests/main.cpp <<EOF
-#define CATCH_CONFIG_MAIN # Предоставляем main()
-#include "catch.hpp"
-EOF
+$ mkdir docs # Создаем папку docs
+$ doxygen -g docs/doxygen.conf # Конфигурируем doxygen.conf
+$ cat docs/doxygen.conf # Проверяем файл конфигурации doxygen
 ```
 
+В `doxygen.conf` прописываем некоторые значения.
 ```ShellSession
-$ sed -i '' '/option(BUILD_EXAMPLES "Build examples" OFF)/a\ # Выделяем определенную строку
-option(BUILD_TESTS "Build tests" OFF) # После выделенной строки вставим следующую строку
-' CMakeLists.txt # Указываем файл, где будем вставить
-$ cat >> CMakeLists.txt <<EOF  # добавление в CMakeLists.txt информации и конфигурации тестов
-if(BUILD_TESTS)
-	enable_testing()
-	file(GLOB \${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
-	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES})
-	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES})
-	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes")	#задаем параметры теста 
-											# -s = показываем успешные выполнения теста
-											# -r compact = формат вывода
-											
-endif()
-EOF
+$ sed -i '' 's/\(PROJECT_NAME.*=\).*$/\1 print/g' docs/doxygen.conf # Называем проект print
+$ sed -i '' 's/\(EXAMPLE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf # Указываем путь к examples
+$ sed -i '' 's/\(INCLUDE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf # Указываем путь к examples, содержащей include
+$ sed -i '' 's/\(INPUT *=\).*$/\1 README.md include/g' docs/doxygen.conf # Вводим файл README.md
+$ sed -i '' 's/\(USE_MDFILE_AS_MAINPAGE.*=\).*$/\1 README.md/g' docs/doxygen.conf # Назначаем файл README.md основным
+$ sed -i '' 's/\(OUTPUT_DIRECTORY.*=\).*$/\1 docs/g' docs/doxygen.conf # Указываем путь каталога docs
 ```
 
 ```ShellSession
-$ cat >> tests/test1.cpp <<EOF
-#include "catch.hpp"
-#include <print.hpp>
-
-TEST_CASE("output values should match input values", "[file]") {
-  std::string text = "hello";
-  std::ofstream out("file.txt");
-  
-  print(text, out);
-  out.close();
-  
-  std::string result;
-  std::ifstream in("file.txt");
-  in >> result;
-  
-  REQUIRE(result == text);  # При условии, что оба потока файла совпали
-}
-EOF
-```
-
-Сборка проекта.
-```ShellSession
-$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install -DBUILD_TESTS=ON
-$ cmake --build _build
-$ cmake --build _build --target test # Если test задан, он будет запущен после сборки
-```
-
-В файле `README.md` в строке заменяем `lab05` на `lab07`, и в `.travis.yml` аналогично, после добавляем новую строку.
-```ShellSession
-$ sed -i '' 's/lab05/lab07/g' README.md # Заменяем lab05 на lab07
-$ sed -i '' 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml # Заменяем строку на DBUILD_TESTS=ON
-$ sed -i '' '/cmake --build _build --target install/a\ # Добавляем следующую строку
-- cmake --build _build --target test
-' .travis.yml
+$ sed -i '' 's/lab06/lab07/g' README.md # Заменяем lab06 на lab07
 ```
 
 ```ShellSession
-$ travis lint # Включаем отображение предупреждений для .travis.yml
+# документируем функции print
+$ edit include/print.hpp
 ```
 
-Пушим файлы.
+Пушим изменения.
 ```ShellSession
-$ git add . # Добавляем все содержимое в папке
-$ git commit -m "added tests" # Коммитируем
+$ git add . # Добавляем все содержащее в папке lab07
+$ git commit -m"added doxygen.conf" # Коммитируем гит
 $ git push origin master # Загружаем гит на GitHub
 ```
 
-Вход в travis и активация проекта.
 ```ShellSession
-$ travis login --auto # Авторуземся без токена
-$ travis enable # Включаем интеграцию к lab07
+$ travis login --auto # Вход в travis
+$ travis enable # Подключаем интеграцию lab07
 ```
 
-Сделаем скриншот и сохраняем в папку `artifacts`.
 ```ShellSession
-$ mkdir artifacts # Создаем папку artifacts
-$ gnome-screenshot
-После ввода команды в консоли сохраняем в папку artifacts
-$ open https://github.com/${GITHUB_USERNAME}/lab07 # Открываем сайт GitHub с лабораторной работой
+$ doxygen docs/doxygen.conf # Указываем путь к файл с конфигурацией
+$ ls | grep "[^docs]" | xargs rm -rf # Находим docs и удаляем
+$ mv docs/html/* . && rm -rf docs # Переносим все файлы в html и удаляем docs
+$ git checkout -b gh-pages # Переключаем на коммит gh-pages
+$ git add . # Добавляем все содержимое
+$ git commit -m"added documentation" # Коммитируем
+$ git push origin gh-pages # Пушим изменения
+$ git checkout master # Переключаем на коммит master
+```
+
+```ShellSession
+$ mkdir artifacts && cd artifacts # Создаем папку artifacts и переходим туда
+$ gnome-screenshot screenshot.png # Делаем скриншот и сохраняем в artifacts
+$ open https://${GITHUB_USERNAME}.github.io/lab07/print_8hpp_source.html # Открываем сайт
+$ gdrive upload screenshot.png # или png # Загружаем скриншот на Google Drive
+$ SCREENSHOT_ID=`gdrive list | grep screenshot | awk '{ print $1; }'` # Задаем имя скриншота
+$ gdrive share ${SCREENSHOT_ID} --role reader --type user --email rusdevops@gmail.com # Открываем доступ в режиме "Просмотр" rusdevops@gmail.com
+$ echo https://drive.google.com/open?id=${SCREENSHOT_ID} # Открываем сайт
 ```
 
 ## Report
 
 ```ShellSession
 $ cd ~/workspace/labs/
-$ export LAB_NUMBER=06
+$ export LAB_NUMBER=07
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -135,10 +105,12 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Links
 
-- [Boost.Tests](http://www.boost.org/doc/libs/1_63_0/libs/test/doc/html/)
-- [Google Test](https://github.com/google/googletest)
+- [HTML](https://ru.wikipedia.org/wiki/HTML)
+- [LAΤΕΧ](https://ru.wikipedia.org/wiki/LaTeX)
+- [man](https://ru.wikipedia.org/wiki/Man_(%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0_Unix))
+- [CHM](https://ru.wikipedia.org/wiki/HTMLHelp)
+- [PostScript](https://ru.wikipedia.org/wiki/PostScript)
 
 ```
 Copyright (c) 2017 Братья Вершинины
 ```
-
