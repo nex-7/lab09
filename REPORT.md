@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nex-7/lab06.svg?branch=master)](https://travis-ci.org/nex-7/lab06)
+[![Build Status](https://travis-ci.org/nex-7/lab07.svg?branch=master)](https://travis-ci.org/nex-7/lab07)
 
 ## Laboratory work VI
 
@@ -10,7 +10,7 @@ $ open https://github.com/philsquared/Catch
 
 ## Tasks
 
-- [X] 1. Создать публичный репозиторий с названием **lab06** на сервисе **GitHub**
+- [X] 1. Создать публичный репозиторий с названием **lab07** на сервисе **GitHub**
 - [X] 2. Выполнить инструкцию учебного материала
 - [X] 3. Ознакомиться со ссылками учебного материала
 - [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
@@ -22,12 +22,12 @@ $ open https://github.com/philsquared/Catch
 $ export GITHUB_USERNAME=nex-7
 ```
 
-Скачиваем предыдущую лабораторную работу в папку `lab06`.
+Скачиваем предыдущую лабораторную работу в папку `lab07`.
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab05 lab06 # Скачиваем гит с GitHub
-$ cd lab06 # Переходим в папку lab06
+$ git clone https://github.com/${GITHUB_USERNAME}/lab05 lab07 # Скачиваем гит с GitHub
+$ cd lab07 # Переходим в папку lab07
 $ git remote remove origin # Очищаем путь загрузки гита
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06 # Назначаем новый путь для будущей загрузки гита
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 # Назначаем новый путь для будущей загрузки гита
 ```
 
 Создаем тесты.
@@ -86,9 +86,9 @@ $ cmake --build _build
 $ cmake --build _build --target test # Если test задан, он будет запущен после сборки
 ```
 
-В файле `README.md` в строке заменяем `lab05` на `lab06`, и в `.travis.yml` аналогично, после добавляем новую строку.
+В файле `README.md` в строке заменяем `lab05` на `lab07`, и в `.travis.yml` аналогично, после добавляем новую строку.
 ```ShellSession
-$ sed -i '' 's/lab05/lab06/g' README.md # Заменяем lab05 на lab06
+$ sed -i '' 's/lab05/lab07/g' README.md # Заменяем lab05 на lab07
 $ sed -i '' 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml # Заменяем строку на DBUILD_TESTS=ON
 $ sed -i '' '/cmake --build _build --target install/a\ # Добавляем следующую строку
 - cmake --build _build --target test
@@ -109,7 +109,7 @@ $ git push origin master # Загружаем гит на GitHub
 Вход в travis и активация проекта.
 ```ShellSession
 $ travis login --auto # Авторуземся без токена
-$ travis enable # Включаем интеграцию к lab06
+$ travis enable # Включаем интеграцию к lab07
 ```
 
 Сделаем скриншот и сохраняем в папку `artifacts`.
@@ -117,7 +117,7 @@ $ travis enable # Включаем интеграцию к lab06
 $ mkdir artifacts # Создаем папку artifacts
 $ gnome-screenshot
 После ввода команды в консоли сохраняем в папку artifacts
-$ open https://github.com/${GITHUB_USERNAME}/lab06 # Открываем сайт GitHub с лабораторной работой
+$ open https://github.com/${GITHUB_USERNAME}/lab07 # Открываем сайт GitHub с лабораторной работой
 ```
 
 ## Report
