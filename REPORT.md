@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nex-7/lab07.svg?branch=master)](https://travis-ci.org/nex-7/lab07)
+[![Build Status](https://travis-ci.org/nex-7/lab08.svg?branch=master)](https://travis-ci.org/nex-7/lab08)
 
 ## Laboratory work VII
 
@@ -10,7 +10,7 @@ $ open https://www.stack.nl/~dimitri/doxygen/manual/index.html
 
 ## Tasks
 
-- [X] 1. Создать публичный репозиторий с названием **lab07** на сервисе **GitHub**
+- [X] 1. Создать публичный репозиторий с названием **lab08** на сервисе **GitHub**
 - [X] 2. Выполнить инструкцию учебного материала
 - [X] 3. Ознакомиться со ссылками учебного материала
 - [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
@@ -23,12 +23,12 @@ $ export GITHUB_USERNAME=TalkedDevotee # Установка переменной
 $ alias edit=vim # Выбираем текстковый редактор Vim
 ```
 
-Скачиваем лабораторную работу №6 в папку `lab07`.
+Скачиваем лабораторную работу №6 в папку `lab08`.
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab06 lab07 # Загрузка гита в папку lab07
-$ cd lab07 # Переходим в папку lab07
+$ git clone https://github.com/${GITHUB_USERNAME}/lab06 lab08 # Загрузка гита в папку lab08
+$ cd lab08 # Переходим в папку lab08
 $ git remote remove origin # Очищаем путь загрузки гита
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 # Устанавливаем путь загрузки гита
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab08 # Устанавливаем путь загрузки гита
 ```
 
 Создаем папку и файл конфигурации.
@@ -49,7 +49,7 @@ $ sed -i '' 's/\(OUTPUT_DIRECTORY.*=\).*$/\1 docs/g' docs/doxygen.conf # Ука�
 ```
 
 ```ShellSession
-$ sed -i '' 's/lab06/lab07/g' README.md # Заменяем lab06 на lab07
+$ sed -i '' 's/lab06/lab08/g' README.md # Заменяем lab06 на lab08
 ```
 
 ```ShellSession
@@ -59,14 +59,14 @@ $ edit include/print.hpp
 
 Пушим изменения.
 ```ShellSession
-$ git add . # Добавляем все содержащее в папке lab07
+$ git add . # Добавляем все содержащее в папке lab08
 $ git commit -m"added doxygen.conf" # Коммитируем гит
 $ git push origin master # Загружаем гит на GitHub
 ```
 
 ```ShellSession
 $ travis login --auto # Вход в travis
-$ travis enable # Подключаем интеграцию lab07
+$ travis enable # Подключаем интеграцию lab08
 ```
 
 ```ShellSession
@@ -83,7 +83,7 @@ $ git checkout master # Переключаем на коммит master
 ```ShellSession
 $ mkdir artifacts && cd artifacts # Создаем папку artifacts и переходим туда
 $ gnome-screenshot screenshot.png # Делаем скриншот и сохраняем в artifacts
-$ open https://${GITHUB_USERNAME}.github.io/lab07/print_8hpp_source.html # Открываем сайт
+$ open https://${GITHUB_USERNAME}.github.io/lab08/print_8hpp_source.html # Открываем сайт
 $ gdrive upload screenshot.png # или png # Загружаем скриншот на Google Drive
 $ SCREENSHOT_ID=`gdrive list | grep screenshot | awk '{ print $1; }'` # Задаем имя скриншота
 $ gdrive share ${SCREENSHOT_ID} --role reader --type user --email rusdevops@gmail.com # Открываем доступ в режиме "Просмотр" rusdevops@gmail.com
