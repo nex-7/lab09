@@ -1,162 +1,41 @@
 [![Build Status](https://travis-ci.org/nex-7/lab8.svg?branch=master)](https://travis-ci.org/nex-7/lab8)
 
-## Laboratory work VIII
+## Laboratory work IX
 
-Данная лабораторная работа посвещена изучению средств пакетирования на примере **CPack**
+Данная лабораторная работа посвещена изучению процесса создания пакета на примере **Github Release**
 
 ```ShellSession
-$ open https://cmake.org/Wiki/CMake:CPackPackageGenerators
+$ open https://help.github.com/articles/creating-releases/
 ```
 
 ## Tasks
 
-- [X] 1. Создать публичный репозиторий с названием **lab08** на сервисе **GitHub**
-- [X] 2. Выполнить инструкцию учебного материала
-- [X] 3. Ознакомиться со ссылками учебного материала
-- [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 1. Создать публичный репозиторий с названием **lab09** на сервисе **GitHub**
+- [X] 2. Ознакомиться со ссылками учебного материала
+- [X] 3. Получить токен для доступа к репозиториям сервиса **GitHub**
+- [X] 4. Сгенерировать GPG ключ и добавить его к аккаунту сервиса **GitHub**
+- [X] 5. Выполнить инструкцию учебного материала
+- [X] 6. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
-Устанавливаем значение окружения переменной `GITHUB_USERNAME` и `GITHUB_EMAIL`.
+Устанавливаем переменные окружения `GITHUB_TOKEN` и `GITHUB_USERNAME`.
 ```ShellSession
-$ export GITHUB_USERNAME=nex-7 # Установка значения GITHUB_USERNAME
-$ export GITHUB_EMAIL=a*************@inbox.ru # Установка значения GITHUB_EMAIL
-$ alias edit=vim # Настраиваем текстовый редактор
+$ export GITHUB_TOKEN=72bd2426c66fc78a2e8dc12649baefcafdc5651c # Переменная окружения GITHUB_TOKEN
+$ export GITHUB_USERNAME=nex-7 # Переменная окружения GITHUB_USERNAME
+$ alias gsed=sed # for *-nix system # Настраиваем потоковый текстовый редактор
 ```
 
-Скачиваем предыдущую лабораторную работу №7 в папку `lab08`.
+Скачиваем предыдущую лабораторную работу №8 в папку `lab09`.
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab07 lab08 # Загружаем гит в папку lab08
-$ cd lab08 # Переходим в папку lab08
+$ git clone https://github.com/${GITHUB_USERNAME}/lab08 lab09 # Скачиваем гит
+$ cd lab09 # Переходим в папку lab09
 $ git remote remove origin # Очищаем старый путь загрузки гита
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab08 # Устанавливаем новый путь загрузки гита
-```
-
-Редактируем `CMakeLists.txt`, устанавливая новые версии `MAJOR`, `TWEAK`, `PATCH`, `MINOR`.
-```ShellSession
-$ sed -i '' '/project(print)/a\
-set(PRINT_VERSION_STRING "v${PRINT_VERSION}")
-' CMakeLists.txt
-$ sed -i '' '/project(print)/a\
-set(PRINT_VERSION \
-\${PRINT_VERSION_MAJOR}.\${PRINT_VERSION_MINOR}.\${PRINT_VERSION_PATCH}.\${PRINT_VERSION_TWEAK})
-' CMakeLists.txt
-$ sed -i '' '/project(print)/a\
-set(PRINT_VERSION_TWEAK 0)
-' CMakeLists.txt
-$ sed -i '' '/project(print)/a\
-set(PRINT_VERSION_PATCH 0)
-' CMakeLists.txt
-$ sed -i '' '/project(print)/a\ 
-set(PRINT_VERSION_MINOR 1)
-' CMakeLists.txt
-$ sed -i '' '/project(print)/a\ 
-set(PRINT_VERSION_MAJOR 0)
-' CMakeLists.txt
-```
-
-Создаем два файла `DESCRIPTION` и `ChangeLog.md`.
-```ShellSession
-$ touch DESCRIPTION && edit DESCRIPTION # Создаем и редактируем файл DESCRIPTION
-$ touch ChangeLog.md # Создаем файл ChangeLog.md
-$ DATE=`date` cat > ChangeLog.md <<EOF
-* ${DATE} ${GITHUB_USERNAME} <${GITHUB_EMAIL}> 0.1.0.0
-- Initial RPM release
-EOF # Вставляем дату времени, имя пользователя и электронную почту
-```
-
-Далее редактируем файл `CPackConfig.cmake`.
-```ShellSession
-$ cat > CPackConfig.cmake <<EOF
-include(InstallRequiredSystemLibraries) # Подключаем установленные требуемые файлы библиотек
-EOF
-```
-
-Устанавливаем все значения.
-```ShellSession
-$ cat >> CPackConfig.cmake <<EOF
-set(CPACK_PACKAGE_CONTACT ${GITHUB_EMAIL}) # Электронная почта
-set(CPACK_PACKAGE_VERSION_MAJOR \${PRINT_VERSION_MAJOR}) # Версия MAJOR
-set(CPACK_PACKAGE_VERSION_MINOR \${PRINT_VERSION_MINOR}) # Версия MINOR
-set(CPACK_PACKAGE_VERSION_PATCH \${PRINT_VERSION_PATCH}) # Версия PATCH
-set(CPACK_PACKAGE_VERSION_TWEAK \${PRINT_VERSION_TWEAK}) # Версия TWEAK
-set(CPACK_PACKAGE_VERSION \${PRINT_VERSION}) # Версия печати на экран
-set(CPACK_PACKAGE_DESCRIPTION_FILE \${CMAKE_CURRENT_SOURCE_DIR}/DESCRIPTION) # Путь к файлу DESCRIPTION
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "static c++ library for printing") # Комментарий
-EOF
-```
-
-Указываем путь к двум файлам.
-```ShellSession
-$ cat >> CPackConfig.cmake <<EOF
-
-set(CPACK_RESOURCE_FILE_LICENSE \${CMAKE_CURRENT_SOURCE_DIR}/LICENSE) # Путь к файлу LICENSE
-set(CPACK_RESOURCE_FILE_README \${CMAKE_CURRENT_SOURCE_DIR}/README.md) # Путь к файлу к REAMDE.md
-EOF
-```
-
-Аналогично и здесь.
-```ShellSession
-$ cat >> CPackConfig.cmake <<EOF
-
-set(CPACK_RPM_PACKAGE_NAME "print-devel") Имя архивирования "print-devel"
-set(CPACK_RPM_PACKAGE_LICENSE "MIT") # Лицензия MIT
-set(CPACK_RPM_PACKAGE_GROUP "print") # Группа print
-set(CPACK_RPM_PACKAGE_URL "https://github.com/${GITHUB_USERNAME}/lab07") # Страница doxygen'а
-set(CPACK_RPM_CHANGELOG_FILE \${CMAKE_CURRENT_SOURCE_DIR}/ChangeLog.md) # Путь к файлу лога
-set(CPACK_RPM_PACKAGE_RELEASE 1) # Назначаем релиз истиной
-EOF
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab09 # Назначаем новый путь загрузки гита
 ```
 
 ```ShellSession
-$ cat >> CPackConfig.cmake <<EOF
-
-set(CPACK_DEBIAN_PACKAGE_NAME "libprint-dev") # Имя архивирования "libprint-dev"
-set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://${GITHUB_USERNAME}.github.io/lab07") # Домашняя страница doxygen'а
-set(CPACK_DEBIAN_PACKAGE_PREDEPENDS "cmake >= 3.0") # Версия cmake 3.0 и новее
-set(CPACK_DEBIAN_PACKAGE_RELEASE 1) # Назначаем архивирование Debian истиной
-EOF
-```
-
-Подключаем два includ'а
-```ShellSession
-$ cat >> CPackConfig.cmake <<EOF
-
-include(CPack) # Подключаем CPack
-EOF
-```
-
-```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-
-include(CPackConfig.cmake) # Подключаем файл CPackConfig.cmake
-EOF 
-```
-
-Замена строки travis'а в `README.md`.
-```ShellSession
-$ sed -i '' 's/lab07/lab08/g' README.md # Заменяем lab07 на lab08
-```
-
-Пушим изменения гита.
-```ShellSession
-$ git add . # Добавляем все содержимое
-$ git commit -m"added cpack config" # Коммитируем гит
-$ git push origin master # Загружаем гит
-```
-
-Авторизация `travis` и подключение `lab07` к `travis`.
-```ShellSession
-$ travis login --auto # Процесс авторизации без токена
-$ travis enable # Подключаем lab08 к travis'у
-```
-
-```ShellSession
-$ cmake -H. -B_build # Сканируем CMakeLists.txt
-$ cmake --build _build # Создаем папку _build
-$ cd _build # Переходим в папку _build
-$ cpack -G "TGZ" # Устанавливаем тип архивирования "TGZ"
-$ cd .. # Выходим из папки _build
+$ gsed -i 's/lab08/lab09/g' README.md # Заменяем lab08 на lab09
 ```
 
 ```ShellSession
@@ -165,18 +44,50 @@ $ cmake --build _build --target package # Архивируем
 ```
 
 ```ShellSession
-$ mkdir artifacts # Создаем папку artifacts
-$ mv _build/*.tar.gz artifacts # Переносим архивацию файла из _build в artifacts
-$ tree artifacts # Отображаем древесную папку
-artifacts
-└── print-0.1.0.0-Linux.tar.gz
+$ travis login --auto # Входим в travis без токена
+$ travis enable # Подключаем репозиторий lab09 к travis
+```
+
+```ShellSession
+$ git tag -s v0.1.0.0 # Подписываем v0.1.0.0
+$ git tag -v v0.1.0.0 # Проверяем подписку
+$ git push origin master --tags # Пушим изменения под v0.1.0.0
+```
+
+```ShellSession
+$ github-release --version # Версия github-release
+$ github-release info -u ${GITHUB_USERNAME} -r lab09 # Информация о релизе lab09
+$ github-release release \ # Пишем информацию о релизе
+    --user ${GITHUB_USERNAME} \
+    --repo lab09 \
+    --tag v0.1.0.0 \
+    --name "libprint" \
+    --description "my first release"
+```
+
+Устанавливаем две переменных `PACKAGE_OS` и `PACKAGE_ARCH`, загружаем релиз на сервер.
+```ShellSession
+$ export PACKAGE_OS=`uname -s` PACKAGE_ARCH=`uname -m` # Переменные окружений PACKAGE_OS и PACKAGE_ARCH 
+$ export PACKAGE_FILENAME=print-${PACKAGE_OS}-${PACKAGE_ARCH}.tar.gz # Переменная окружения PACKAGE_FILENAME
+$ github-release upload \ # Загружаем релиз на GitHub
+    --user ${GITHUB_USERNAME} \
+    --repo lab09 \
+    --tag v0.1.0.0 \
+    --name "${PACKAGE_FILENAME}" \
+    --file _build/*.tar.gz
+```
+
+```ShellSession
+$ github-release info -u ${GITHUB_USERNAME} -r lab09 # Обновленная информация о релизе lab09
+$ wget https://github.com/${GITHUB_USERNAME}/lab09/releases/download/v0.1.0.0/${PACKAGE_FILENAME} # Скачиваем файл
+$ tar -ztf ${PACKAGE_FILENAME} # Распаковываем файл
 ```
 
 ## Report
 
 ```ShellSession
 $ cd ~/workspace/labs/
-$ export LAB_NUMBER=08
+$ export LAB_NUMBER=09
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -187,10 +98,11 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Links
 
-- [DMG](https://cmake.org/cmake/help/latest/module/CPackDMG.html)
-- [DEB](https://cmake.org/cmake/help/latest/module/CPackDeb.html)
-- [RPM](https://cmake.org/cmake/help/latest/module/CPackRPM.html)
-- [NSIS](https://cmake.org/cmake/help/latest/module/CPackNSIS.html)
+- [Create Release](https://help.github.com/articles/creating-releases/)
+- [Get GitHub Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+- [Signing Commits](https://help.github.com/articles/signing-commits-with-gpg/)
+- [Go Setup](http://www.golangbootcamp.com/book/get_setup)
+- [github-release](https://github.com/aktau/github-release)
 
 ```
 Copyright (c) 2017 Братья Вершинины
