@@ -23,19 +23,19 @@ $ open https://help.github.com/articles/creating-releases/
 ```ShellSession
 $ export GITHUB_TOKEN=72bd2426c66fc78a2e8dc12649baefcafdc5651c # Переменная окружения GITHUB_TOKEN
 $ export GITHUB_USERNAME=nex-7 # Переменная окружения GITHUB_USERNAME
-$ alias gsed=sed # for *-nix system # Настраиваем потоковый текстовый редактор
+$ alias gsed=sed # for *-nix system # Настройка текстового редактора
 ```
 
 Скачиваем предыдущую лабораторную работу №8 в папку `lab09`.
 ```ShellSession
 $ git clone https://github.com/${GITHUB_USERNAME}/lab08 lab09 # Скачиваем гит
-$ cd lab09 # Переходим в папку lab09
+$ cd lab09 # Переходим в lab09
 $ git remote remove origin # Очищаем старый путь загрузки гита
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab09 # Назначаем новый путь загрузки гита
 ```
 
 ```ShellSession
-$ gsed -i 's/lab08/lab09/g' README.md # Заменяем lab08 на lab09
+$ gsed -i 's/lab08/lab09/g' README.md # Замена lab08 на lab09
 ```
 
 ```ShellSession
@@ -65,7 +65,7 @@ $ github-release release \ # Пишем информацию о релизе
     --description "my first release"
 ```
 
-Устанавливаем две переменных `PACKAGE_OS` и `PACKAGE_ARCH`, загружаем релиз на сервер.
+Устанавливаем переменные `PACKAGE_OS` и `PACKAGE_ARCH`, загружаем релиз на сервер.
 ```ShellSession
 $ export PACKAGE_OS=`uname -s` PACKAGE_ARCH=`uname -m` # Переменные окружений PACKAGE_OS и PACKAGE_ARCH 
 $ export PACKAGE_FILENAME=print-${PACKAGE_OS}-${PACKAGE_ARCH}.tar.gz # Переменная окружения PACKAGE_FILENAME
