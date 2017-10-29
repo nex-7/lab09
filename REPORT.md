@@ -21,43 +21,43 @@ $ open https://help.github.com/articles/creating-releases/
 
 Устанавливаем переменные
 ```ShellSession
-$ export GITHUB_TOKEN=72bd2426c66fc78a2e8dc12649baefcafdc5651c # токен
-$ export GITHUB_USERNAME=nex-7 # ник аккаунта
-$ alias gsed=sed # for *-nix system # текстовый редактор
+$ export GITHUB_TOKEN=72bd2426c66fc78a2e8dc12649baefcafdc5651c # Токен
+$ export GITHUB_USERNAME=nex-7 # Ник аккаунта
+$ alias gsed=sed # for *-nix system # Текстовый редактор
 ```
 
 Скачиваем предыдущий гит
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab8 lab09 # прошлый гит
+$ git clone https://github.com/${GITHUB_USERNAME}/lab8 lab09 # Прошлый гит
 $ cd lab09 # Переходим в lab09
-$ git remote remove origin # очистка пути гита
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab09 # новый путь гита
+$ git remote remove origin # Очистка пути гита
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab09 # Новый путь гита
 ```
 
 ```ShellSession
-$ gsed -i 's/lab08/lab09/g' README.md # пишем вместо lab08 lab09
+$ gsed -i 's/lab08/lab09/g' README.md # Пишем вместо lab08 lab09
 ```
 
 ```ShellSession
-$ cmake -H. -B_build -DCPACK_GENERATOR="TGZ" # архивация tar.gz
-$ cmake --build _build --target package # процесс архивации
+$ cmake -H. -B_build -DCPACK_GENERATOR="TGZ" # Архивация tar.gz
+$ cmake --build _build --target package # Процесс архивации
 ```
 
 ```ShellSession
-$ travis login --auto # авторизация travis
+$ travis login --auto # Авторизация travis
 $ travis enable # Подключаем репозиторий lab09 к travis
 ```
 
 ```ShellSession
 $ git tag -s v0.1.0.0 # Подписываем v0.1.0.0
-$ git tag -v v0.1.0.0 # верификация v0.1.0.0
-$ git push origin master --tags # загружаем гит под v0.1.0.0
+$ git tag -v v0.1.0.0 # Верификация v0.1.0.0
+$ git push origin master --tags # Загружаем гит под v0.1.0.0
 ```
 
 ```ShellSession
 $ github-release --version # Версия гит релиза
 $ github-release info -u ${GITHUB_USERNAME} -r lab09 # Информация о релизе lab09
-$ github-release release \ # информация о пользователе, тэге, имени файла, комментарии
+$ github-release release \ # Информация о пользователе, тэге, имени файла, комментарии
     --user ${GITHUB_USERNAME} \
     --repo lab09 \
     --tag v0.1.0.0 \
@@ -77,7 +77,7 @@ $ github-release upload \ # Загружаем релиз на GitHub
 ```
 
 ```ShellSession
-$ github-release info -u ${GITHUB_USERNAME} -r lab09 # новая информация о гите
+$ github-release info -u ${GITHUB_USERNAME} -r lab09 # Новая информация о гите
 $ wget https://github.com/${GITHUB_USERNAME}/lab09/releases/download/v0.1.0.0/${PACKAGE_FILENAME} # Загружаем на локальный диск
 $ tar -ztf ${PACKAGE_FILENAME} # Распаковываем файл
 ```
